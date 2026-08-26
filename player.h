@@ -1,6 +1,14 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <array>
+
+struct Direction
+{
+		int x;
+		int y;
+};
+
 
 class Player
 {
@@ -10,7 +18,8 @@ private:
 
 public:
 
-	int direction;
+	int directionX;
+	int directionY;
 
 	int jump_count;
 	int max_jumps;
@@ -40,9 +49,10 @@ public:
 	bool can_dash;
 
 
-	sf::Vector2f velocity; 
-
-
+	sf::Vector2f velocity;
+	
+	
+	Direction direction;
 
 	Player();
 
@@ -55,7 +65,10 @@ public:
 	void update_sprite_only();
 
 
-	void dash(sf::Vector2f velocity);
+	void update_direction(Direction &currentDirection);
+
+
+	void dash(sf::Vector2f &Velocity);
 
 
 

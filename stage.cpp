@@ -2,11 +2,11 @@
 #include <SFML/Graphics.hpp>
 
 #include "stage.h"
-#include "physics.h"
+
 #include "player.h"
 
 Player plr;
-Physics physics;
+
 
 Stage::Stage()
 {

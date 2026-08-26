@@ -1,23 +1,26 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <array>
+#include <cmath>
 
 #include "player.h"
-#include "physics.h"
 
 
 
-Physics physics;
 
 
 Player::Player() // player constructor //
 {
-	direction = 1; 
+	direction.x= 0;
+	direction.y = 1;
 
 	jump_count = 0;
 	max_jumps = 3; 
 
 	max_dash = 2;
 	dash_count = 0;
+
+	dash_vel = 3000.0f; 
 
 	x = 100.0f; //player position
 	y = 100.0f;
@@ -71,18 +74,31 @@ void Player::jump()
 
 
 
-void Player::dash(sf::Vector2f velocity)
+void Player::dash(sf::Vector2f &Velocity)
 {
+
+	if(direction.x == 0 && direction.y == 0) return;
+	
+	if(dash_count < max_dash)
+	{
+
+		float length = std::sqrt((direction.x * direction.x) + (direction.y * direction.y));
+
+
+		Velocity.x = dash_vel * (direction.x / length);
+		velocity.y = dash_vel * (direction.y / length);
+		
+		dash_count += 1;
+	}
+
 	if(is_grounded)
 	{
 		dash_count = 0;
 	}
-
-	if(dash_count < max_dash)
-	{
-		velocity.x 
-	}
 }
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::move(float dt) // movement function //
 {
@@ -91,19 +107,38 @@ void Player::move(float dt) // movement function //
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 	{
 		target_velocity_x = -speed;
-		direction *= -1;
+		direction.x = -1;
 	}
 
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 	{
 		target_velocity_x = speed;
-		direction *= -1; 
+		direction.x = 1; 
 		
 	}
 	else
 	{
 		target_velocity_x = 0.0f;
+		direction.x = 0;
 	}
+
+
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
+		direction.y = -1;
+	}
+
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
+		direction.y = 1;
+	}
+
+	else
+	{
+		direction.y = 0;
+	}
+
+
 
 	float slide_friction = 9.0f; //slide friction obviously
 
@@ -115,6 +150,9 @@ void Player::move(float dt) // movement function //
 	velocity.x = velocity.x + (target_velocity_x - velocity.x ) * lerp_factor;
 
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 
@@ -131,6 +169,12 @@ void Player::update_pos(float dt) // bind the velocity to the position of the pl
 	sprite.setPosition(x, y);
 }
 
+
+void Player::update_direction(Direction &currentDirection)
+{
+	currentDirection.x = direction.x;
+	currentDirection.y = direction.y;
+}
 
 
 void Player::draw_plr(sf::RenderWindow& window) // draw the sprite to the window //

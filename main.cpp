@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <array>
 
 #include "player.h"
 #include "physics.h"
@@ -40,16 +41,19 @@ int main()
 
 				if(event.key.code == sf::Keyboard::L)
 				{
-					plr.dash();
+					plr.dash(plr.velocity);
 				}
+
 			}
 
 			std::cout << plr.velocity.y << '\n';
 		
 		}
 
-		
-
+		if(plr.is_grounded)
+		{
+			plr.dash_count = 0;
+		}
 		plr.move(dt); // plr movement junk //
 
 
@@ -58,6 +62,8 @@ int main()
 
 		plr.update_pos(dt); // updates the position of the player // 
 		physics.collide(plr, stage.get_bounds()); //collide with the stage 
+
+		
 
 
 
