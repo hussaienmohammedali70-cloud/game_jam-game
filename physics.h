@@ -20,8 +20,8 @@ public:
 
 	void apply_gravity(Player& player, float dt);
 
-	void hit();
 
+	bool affected_by_gravity; 
 
 
 

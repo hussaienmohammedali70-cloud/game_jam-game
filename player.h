@@ -13,10 +13,15 @@ struct Direction
 class Player
 {
 private:
-	sf::RectangleShape sprite;
+	
+	sf::Sprite sprite;
 
 
 public:
+
+	sf::RectangleShape collision_box;
+
+	sf::Texture plr_texture;
 
 	int directionX;
 	int directionY;
@@ -26,6 +31,7 @@ public:
 
 	int max_dash;
 	int dash_count;
+	int dash_timer;
 
 	float x;
 	float y;
@@ -47,6 +53,10 @@ public:
 
 	bool is_grounded;
 	bool can_dash;
+	bool is_dashing;
+
+
+	
 
 
 	sf::Vector2f velocity;
@@ -62,14 +72,22 @@ public:
 	void jump();
 	void update_pos(float dt);
 	void draw_plr(sf::RenderWindow& window); 
-	void update_sprite_only();
+	void draw_plr_sprite(sf::RenderWindow& window);
+
 
 
 	void update_direction(Direction &currentDirection);
+
+    void setTexture(const sf::Texture* texture);
+    void setTextureRect(const sf::IntRect& rect);
+
 
 
 	void dash(sf::Vector2f &Velocity);
 
 
+	bool is_moving(); 
 
 };
+
+extern Player plr;

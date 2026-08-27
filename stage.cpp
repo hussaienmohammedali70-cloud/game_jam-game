@@ -8,7 +8,7 @@
 Player plr;
 
 
-Stage::Stage()
+Stage::Stage() // initial stage construct idk why tf im saying ts its so obvious //
 {
 	x = 100.0f;
 	y = 900.0f;
@@ -19,12 +19,12 @@ Stage::Stage()
 	stage_body.setSize(sf::Vector2f(width, height));
 	stage_body.setFillColor(sf::Color::White);
 	stage_body.setPosition(x, y);
-}
+} 
 
 
 sf::FloatRect Stage::get_bounds() // get the stage box bounds //
 {
-	return stage_body.getGlobalBounds();
+	return stage_body.getGlobalBounds(); 
 }
 
 sf::FloatRect Stage::create_platform(sf::RenderWindow& window,sf::Color color, float x, float y, float  w, float h)

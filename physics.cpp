@@ -9,7 +9,7 @@
 
 Physics::Physics() // physics class constructor //
 {
-	gravity = 8000.0f;
+	gravity = 6500.0f;
 }
 
 
@@ -47,7 +47,6 @@ bool check_collision(sf::FloatRect object1, sf::FloatRect object2)
 	
 
 }
-
 
 
 
@@ -110,14 +109,14 @@ void Physics::collide(Player& plr, sf::FloatRect stage) //check if the player is
 
 	}
 
-	plr.update_sprite_only();
+	
 }
 
 void Physics::apply_gravity(Player& player, float dt)
 {
-
+	
 	player.velocity.y += gravity * dt;
-
+	
 }
 
 
