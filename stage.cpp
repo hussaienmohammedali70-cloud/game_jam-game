@@ -34,27 +34,26 @@ Stage::Stage()
 } 
 
 void Stage::init_camera(float window_w, float window_h) {
-    // Lock the camera dimensions cleanly to match 1920x1080 resolution
+
+
     camera.setSize(window_w, window_h); 
     camera.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));
     current_camera_pos = sf::Vector2f(0.f, 0.f);
 }
 
 void Stage::update_camera(float dt, const sf::Vector2f& player_pos, int player_dir_x, float panic_level) {
-    // 1. HARD SNAP: Center the camera perfectly on the player's raw coordinates
-    // We add a tiny manual vertical offset (-30.f) just to keep their head beautifully in frame
+
     current_camera_pos.x = player_pos.x;
     current_camera_pos.y = player_pos.y - 30.0f;
 
-    // 2. MAP BOUNDARY CLAMPING:
-    // Keeps your wide 1920x1080 lens from showing the empty black void outside the Tiled map borders
+
     float half_view_w = camera.getSize().x / 2.f; 
     float half_view_h = camera.getSize().y / 2.f;
 
     if (current_camera_pos.x < half_view_w) current_camera_pos.x = half_view_w;
     if (current_camera_pos.y < half_view_h) current_camera_pos.y = half_view_h;
 
-    // 3. GRADUAL PANIC TREMOR ENGINE:
+
     sf::Vector2f final_camera_pos = current_camera_pos;
 
     if (panic_level > 0.0f) {
@@ -70,7 +69,6 @@ void Stage::update_camera(float dt, const sf::Vector2f& player_pos, int player_d
         final_camera_pos.y += offset_y;
     }
 
-    // Apply the position right onto the lens matrix
     camera.setCenter(final_camera_pos);
 }
 

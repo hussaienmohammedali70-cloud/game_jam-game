@@ -33,17 +33,16 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "stickBANG");
     window.setFramerateLimit(60);
 
-    // Inside main.cpp setup block (Before the while loop)
     Dialog dialogBox;
 
-    // 1. Load the font and check for failures
+  
     if (!dialogBox.init_dialog("font.ttf")) 
     {
-        std::cout << "❌ FONT ERROR: Could not find font.ttf in your folder!" << std::endl;
+        std::cout << " FONT ERROR: Could not find font.ttf in your folder!" << std::endl;
     } 
     else 
     {
-        std::cout << "✅ SUCCESS: Dialogue font loaded perfectly!" << std::endl;
+        std::cout << "SUCCESS: Dialogue font loaded perfectly" << std::endl;
     }
 
     std::vector<std::string> initial_message = { 
@@ -53,11 +52,11 @@ int main()
 
     if (!stage.load_from_tiled("untitled.tmx")) 
     {    
-        std::cout << "❌ CRITICAL: The Tiled map file failed to load!" << std::endl;
+        std::cout << " CRITICAL: The Tiled map file failed to load!" << std::endl;
     } 
     else 
     {
-        std::cout << "✅ SUCCESS: Tiled map loaded into memory!" << std::endl;
+        std::cout << " SUCCESS: Tiled map loaded into memory!" << std::endl;
     }
     
     stage.init_camera(1920.f, 1080.f);
@@ -80,9 +79,7 @@ int main()
         float dt = clock.restart().asSeconds();
         sf::Event event;
 
-        // =========================================================================
-        // --- ALL EVENTS MUST STAY INSIDE THIS WINDOW POLL LOOP ---
-        // =========================================================================
+
         while(window.pollEvent(event))
         {
             if(event.type == sf::Event::Closed)
@@ -90,7 +87,7 @@ int main()
                 window.close();
             }
 
-            // 1. INSTANT TAP CONTROLS (Pressed)
+    
             if(event.type == sf::Event::KeyPressed) 
             {
                 if(event.key.code == sf::Keyboard::Space)
@@ -104,7 +101,6 @@ int main()
                 }
             }
 
-            // 2. FIXED SYSTEM HOOK: Dialogue controls properly nested inside event queue!
             if (event.type == sf::Event::KeyReleased)
             {
                 if (event.key.code == sf::Keyboard::E)
@@ -124,7 +120,8 @@ int main()
                     }
                 }
             }
-        } // === END OF WINDOW EVENT POLLING ===
+        } 
+
 
         if(plr.is_grounded)
         {
@@ -140,55 +137,47 @@ int main()
         physics.apply_gravity(plr, dt); 
         plr.update_pos(dt); 
 
-        // Complete Tiled map collisions automation
+    
         for (const auto& platform : stage.level_colliders) {
             physics.collide(plr, platform);
         }
 
-        // Handle animation updates cleanly
         if(plr.is_moving)
         {
             plr_animation.update(0, dt);
         }
         plr.setTextureRect(plr_animation.texture_rect);
 
-        // Update the custom camera scripts using our tracking positions
+
         stage.update_camera(dt, sf::Vector2f(plr.x, plr.y), plr.direction.x, stage.panic_meter);
 
-        // --- DRAWING PREPARATION (Lighting mask generation) ---
+
         darkMask.clear(sf::Color(0, 0, 0, 200)); 
         darkMask.setView(stage.get_camera_view());
 
-        // Snap light center position nodes to character metrics
         float player_center_x = plr.x + (plr.width / 2.0f);
         float player_center_y = plr.y + (plr.height / 2.0f);
         lightSprite.setPosition(player_center_x, player_center_y);
 
-        // Carve light channel through dark mask
         darkMask.draw(lightSprite, eraseBlend);
         darkMask.display();
 
-        // --- RENDERING ROUTINE ---
         window.clear(sf::Color::Black); 
 
-        // Apply active player tracking lens
         window.setView(stage.get_camera_view());
 
         stage.draw_stage(window); 
         
-        // Manual sandbox tester platform
         physics.collide(plr, stage.create_platform(window, sf::Color::White, 300.0f, 400.0f, 300.0f, 50.0f));
         
         plr.draw_plr(window); 
         plr.draw_plr_sprite(window);
         
-        // Reset view matrix cleanly back to a static flat HUD overlay layer layout
         window.setView(window.getDefaultView());
         
         sf::Sprite darkMaskSprite(darkMask.getTexture());
         window.draw(darkMaskSprite); 
         
-        // Render UI dialogue components on top of lighting mask
         dialogBox.draw_dialog(window);
 
         window.display(); 

@@ -46,18 +46,14 @@ void Dialog::advance()
 {
     if (!is_visible) return;
 
-    // 1. Move to the next index
     current_index++;
 
-    // 2. CRASH SHIELD: Check if the new index is completely outside the list size BEFORE accessing it!
     if (current_index >= dialogue_lines.size()) 
     {
-        // If we ran out of text, close the box safely and exit the function!
         hide();
         return; 
     } 
 
-    // 3. SAFE ACCESS: Only set the text if we are guaranteed to be within safe boundaries
     text_display.setString(dialogue_lines[current_index]);
 }
 

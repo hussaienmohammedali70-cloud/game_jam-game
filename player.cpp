@@ -244,17 +244,6 @@ void Player::move(float dt) // movement function //
 
 
 
-	for (const auto& platform : stage.level_colliders)
-	 {
-    	sf::FloatRect overlap;
-    	if (player_box.intersects(platform, overlap)) 
-		{
-
-			
-
-		}
-	}
-
 
 }
 
