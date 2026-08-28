@@ -5,6 +5,10 @@
 
 #include "player.h"
 #include "physics.h"
+#include "stage.h"
+
+Stage stage;
+
 
 Physics physics;
 
@@ -12,8 +16,8 @@ Physics physics;
 Player::Player() // player constructor //
 {
 
-	x = 200.0f; //player position
-	y = 100.0f;
+	x = 400.0f; //player position
+	y = 300.0f;
 
 
 	width = 40.0f;
@@ -45,6 +49,8 @@ Player::Player() // player constructor //
 	jump_count = 0;
 	max_jumps = 2; 
 
+	is_moving = false;
+
 	max_dash = 1;
 	dash_count = 0;
 
@@ -62,7 +68,7 @@ Player::Player() // player constructor //
 
 	acceleration = 12.0f;
 		
-	speed = 900.0f; // speed duh //
+	speed = 500.0f; // speed duh //
 
 	jump_force = 1600.0f;
 
@@ -72,7 +78,7 @@ Player::Player() // player constructor //
 	can_dash = true;
 	is_dashing = false;
 
-	is_moving = false;
+
 
 
 
@@ -94,7 +100,7 @@ void Player::setTexture(const sf::Texture* texture) {
 	{
 		sprite.setTexture(*texture);
 
-		sprite.setScale(5.0f, 5.0f);
+		sprite.setScale(5.0f, 6.0f);
 	}
     
 }
@@ -103,7 +109,7 @@ void Player::setTexture(const sf::Texture* texture) {
 void Player::setTextureRect(const sf::IntRect& rect) {
     sprite.setTextureRect(rect);
 
-	sprite.setScale(5.0f, 5.0f);
+	sprite.setScale(5.0f, 6.0f);
 
 }
 
@@ -172,7 +178,8 @@ void Player::move(float dt) // movement function //
 	{
 		target_velocity_x = -speed;
 		direction.x = -1;
-		is_moving = true;
+		
+		
 	}
 
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
@@ -180,15 +187,28 @@ void Player::move(float dt) // movement function //
 		target_velocity_x = speed;
 		direction.x = 1; 
 
+
 		
 	}
 	else
 	{
+		velocity.x = 0;
 		target_velocity_x = 0.0f;
 		direction.x = 0; 
 
+
 		
 	}
+
+	if(velocity.x != 0)
+	{
+		is_moving = true;
+	}
+	else
+	{
+		is_moving = false;
+	}
+	
 
 	// directional input and other boring stuff //
 
@@ -218,12 +238,33 @@ void Player::move(float dt) // movement function //
 
 	velocity.x = velocity.x + (target_velocity_x - velocity.x ) * lerp_factor;
 
+
+	
+	sf::FloatRect player_box = plr.get_bounds();
+
+
+
+	for (const auto& platform : stage.level_colliders)
+	 {
+    	sf::FloatRect overlap;
+    	if (player_box.intersects(platform, overlap)) 
+		{
+
+			
+
+		}
+	}
+
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
+sf::Vector2f Player::get_pos()
+{
+	return sf::Vector2f(x, y);
+}
 
 
 
@@ -245,7 +286,7 @@ void Player::update_pos(float dt) // bind the velocity to the position of the pl
 
 
 
-
+ 
 void Player::update_direction(Direction &currentDirection)
 {
 	currentDirection.x = direction.x;
@@ -270,7 +311,3 @@ void Player::draw_plr_sprite(sf::RenderWindow& window)
 
 
 
-bool Player::is_moving()
-{
-	return std::abs(velocity.x) > 0.1;
-}

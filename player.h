@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <array>
 
+
+
 struct Direction
 {
 		int x;
@@ -39,6 +41,8 @@ public:
 	float target_velocity_x;
 
 	float acceleration;
+
+	bool is_moving;
 	
 	float dash_vel;
 	
@@ -81,12 +85,14 @@ public:
     void setTexture(const sf::Texture* texture);
     void setTextureRect(const sf::IntRect& rect);
 
+	sf::Vector2f get_pos();
+
 
 
 	void dash(sf::Vector2f &Velocity);
 
 
-	bool is_moving(); 
+
 
 };
 

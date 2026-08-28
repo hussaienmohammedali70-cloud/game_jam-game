@@ -72,6 +72,7 @@ void Physics::collide(Player& plr, sf::FloatRect stage) //check if the player is
 	float overlapY = min_safeY - std::abs(distanceY); // overlap //
 
 
+	
 	if(overlapX > 0.0f && overlapY > 0.0f)
 	{
 
@@ -111,6 +112,7 @@ void Physics::collide(Player& plr, sf::FloatRect stage) //check if the player is
 
 	
 }
+
 
 void Physics::apply_gravity(Player& player, float dt)
 {
