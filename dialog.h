@@ -16,13 +16,19 @@ private:
     std::vector<std::string> dialogue_lines;
     unsigned int current_index;
 
+    // 👇 FIXED: Explicitly declared here so dialog.cpp can use them!
+    std::string full_text;       
+    unsigned int current_char;   
+    float type_timer;            
+
 public:
     Dialog();
     bool init_dialog(const std::string& font_path);
     
-    // FIXED SIGNATURES: Correctly registering these as functions!
     void start_dialogue(const std::vector<std::string>& lines);
     void advance(); 
+    
+    void update(float dt); 
 
     void show() { is_visible = true; }
     void hide() { is_visible = false; }

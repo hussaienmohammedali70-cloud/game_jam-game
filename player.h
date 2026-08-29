@@ -4,7 +4,6 @@
 #include <array>
 
 
-
 struct Direction
 {
 		int x;
@@ -20,6 +19,8 @@ private:
 
 
 public:
+
+	bool swap_appearance(const std::string& new_png_path);
 
 	sf::RectangleShape collision_box;
 
@@ -43,6 +44,7 @@ public:
 	float acceleration;
 
 	bool is_moving;
+	bool is_jumping;
 	
 	float dash_vel;
 	

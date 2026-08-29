@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="26">
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="31">
  <tileset firstgid="1" source="something.png"/>
  <layer id="1" name="Tile Layer 1" width="30" height="20">
   <data encoding="csv">
@@ -25,6 +25,13 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="6" name="trigger layer">
+  <object id="30" x="261" y="175" width="16.3333" height="104">
+   <properties>
+    <property name="text" value="dad ? / where the hell did you go !?"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="5" name="colliderables">
   <object id="9" x="127" y="282" width="320.333" height="5"/>
   <object id="15" x="128" y="160.333" width="322.333" height="7.66667"/>

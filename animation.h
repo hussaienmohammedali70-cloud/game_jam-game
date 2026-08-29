@@ -12,10 +12,10 @@ private:
     float switch_time; // the time it takes the animation to switch images // //switch my animation twin //
 
 public:
-    Animation(sf::Texture* texture, sf::Vector2u image_count, float switch_time);
+    Animation(sf::Texture* texture, sf::Vector2u image_count);
 
     sf::IntRect texture_rect; // rectangle of the texture, again im explaining the most obvious things
 
-    void update(int row, float dt);
+    void update(int row, int frames, float switch_time, float dt);
 
 };

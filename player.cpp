@@ -10,14 +10,17 @@
 Stage stage;
 
 
+
+
+
 Physics physics;
 
 
 Player::Player() // player constructor //
 {
 
-	x = 400.0f; //player position
-	y = 300.0f;
+	x = 600.0f; //player position
+	y = 500.0f;
 
 
 	width = 40.0f;
@@ -298,5 +301,23 @@ void Player::draw_plr_sprite(sf::RenderWindow& window)
 }
 
 
+
+bool Player::swap_appearance(const std::string& new_png_path)
+{
+    
+    if (!plr_texture.loadFromFile(new_png_path))
+    {
+        std::cerr << "Error: Mid-game texture swap failed! Could not find: " << new_png_path << std::endl;
+        return false; 
+    }
+
+    
+    plr_texture.setSmooth(false);
+
+    
+    sprite.setTexture(plr_texture);
+    
+    return true;
+}
 
 
